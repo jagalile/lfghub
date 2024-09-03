@@ -1,0 +1,217 @@
+{% extends 'users/base.html' %}
+{% load flag_tools %}
+{% load social_tools %}
+{% block content %}
+  <form class="row" action="{% url 'users:edit_looker_profile_view' looker_id=user.id %}" method="post">
+    {% csrf_token %}
+    <div class="row mb-3">
+      <div class="col">
+        <div class="form-check form-switch">
+          {% if user.dark_theme %}
+            <input class="form-check-input" type="checkbox" role="switch" name="dark_theme" checked />
+          {% else %}
+            <input class="form-check-input" type="checkbox" role="switch" name="dark_theme" />
+          {% endif %}
+          <label class="form-check-label" for="flexSwitchCheckDefault">Dark mode</label>
+        </div>
+      </div>
+      <div class="col text-end">
+        <button type="submit" class="btn btn-primary">
+          <span class="icon"><i class="bi bi-floppy"></i></span>
+          <span>Save</span>
+        </button>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col me-2">
+        <div class="row mb-3">
+          <div class="card">
+            <div class="card-body">
+              <div class="row">
+                <div class="col">
+                  <h5 class="card-title">{{ user.username }}</h5>
+                  <h6 class="card-subtitle mb-2 text-body-secondary">Select your pronouns</h6>
+                  <select class="form-select form-select-sm" name="pronouns">
+                    <option selected>{{ user.get_pronouns_display }}</option>
+                    {% for pronoun in pronouns %}
+                      <option>{{ pronoun.1 }}</option>
+                    {% endfor %}
+                  </select>
+                </div>
+                <div class="col text-end">
+                  <h5 class="card-title">&nbsp</h5>
+                  <h6 class="card-subtitle mb-2 text-body-secondary">Choose your roles</h6>
+                  <select class="form-select form-select-sm" size="2" multiple aria-label="multiple select example" name="role">
+                    {% if user.is_gm %}
+                      <option selected>Game Master</option>
+                    {% else %}
+                      <option>Game Master</option>
+                    {% endif %}
+                    {% if user.is_player %}
+                      <option selected>Player</option>
+                    {% else %}
+                      <option>Player</option>
+                    {% endif %}
+                  </select>
+                </div>
+              </div>
+              <div class="row mt-2 mb-2">
+                <div class="row">
+                  <h6 class="card-subtitle mb-2 text-body-secondary">Select your country (used to display timezone)</h6>
+                  <select class="form-select form-select-sm" name="country">
+                    <option selected>
+                      {% if user.get_country_name != None %}
+                        {{ user.get_country_name }}
+                      {% else %}
+                        &nbsp
+                      {% endif %}
+                    </option>
+                    {% for country in countries %}
+                      <option>{{ country }}</option>
+                    {% endfor %}
+                  </select>
+                </div>
+                <div class="row">
+                  <h6 class="card-subtitle mb-2 mt-2 text-body-secondary">Choose the languages you speak</h6>
+                  <select class="form-select form-select-sm" size="8" multiple aria-label="multiple select example" name="languages">
+                    {% for language in languages %}
+                      {% if language in user.get_languages %}
+                        <option selected>{{ language|get_language_name }}</option>
+                      {% else %}
+                        <option>{{ language|get_language_name }}</option>
+                      {% endif %}
+                    {% endfor %}
+                  </select>
+                </div>
+              </div>
+              <p class="card-text mt-4">{{ user.bio }}</p>
+              <time datetime="{{ user.date_joined }}">Joined on {{ user.date_joined }}</time>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="card">
+            <div class="card-body">
+              <h5 class="card-title">Social Networks</h5>
+              <h6 class="card-subtitle mb-2 text-body-secondary">Paste the links to your profile of the social networks where you want to be contacted</h6>
+              <p class="card-text text-center">
+                {% for social_media in social_media_list %}
+                  <div class="input-group mb-2">
+                    <span class="input-group-text"><i class="bi bi-{{ social_media.name|lower }}"></i>&nbsp&nbsp|&nbsp&nbsp{{ social_media.name }}</span>
+                    <input type="text" class="form-control" aria-describedby="basic-addon3 basic-addon4" value="{% get_social_url user.username social_media.name %}"/>
+                  </div>
+                {% endfor %}
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col ms-2">
+        <div class="row mb-3">
+          <div class="card">
+            <div class="card-body">
+              <h5 class="card-title">Games as Master</h5>
+              <h6 class="card-subtitle mb-2 text-body-secondary">Select your favorite game to play as Game Master</h6>
+              <p class="card-text">
+                <select class="form-select form-select-sm" name="fav_gm_game">
+                  <option selected>{{ user.fav_gm_game.name }}</option>
+                  {% for game in looker_gm_games %}
+                    <option>{{ game.name }}</option>
+                  {% endfor %}
+                </select>
+                <h6 class="card-subtitle mb-2 text-body-secondary">Select your games to play as Game Master</h6>
+                <select class="form-select form-select-sm" size="8" multiple aria-label="multiple select example" name="gm_games">
+                  {% for game in games %}
+                    {% if game in looker_gm_games %}
+                      <option selected>{{ game.name }}</option>
+                    {% else %}
+                      <option>{{ game.name }}</option>
+                    {% endif %}
+                  {% endfor %}
+                </select>
+              </p>
+            </div>
+          </div>
+        </div>
+        <div class="row mb-3">
+          <div class="card">
+            <div class="card-body">
+              <h5 class="card-title">Games as Player</h5>
+              <h6 class="card-subtitle mb-2 text-body-secondary">Select your favorite game to play as Player</h6>
+              <p class="card-text">
+                <select class="form-select form-select-sm" name="fav_player_game">
+                  <option selected>{{ user.fav_player_game.name }}</option>
+                  {% for game in looker_player_games %}
+                    <option>{{ game.name }}</option>
+                  {% endfor %}
+                </select>
+                <h6 class="card-subtitle mb-2 text-body-secondary">Select your games to play as Player</h6>
+                <select class="form-select form-select-sm" size="8" multiple aria-label="multiple select example" name="player_games">
+                  {% for game in games %}
+                    {% if game in looker_player_games %}
+                      <option selected>{{ game.name }}</option>
+                    {% else %}
+                      <option>{{ game.name }}</option>
+                    {% endif %}
+                  {% endfor %}
+                </select>
+              </p>
+            </div>
+          </div>
+        </div>
+        <div class="row mb-3">
+          <div class="card">
+            <div class="card-body">
+              <h5 class="card-title">Platforms</h5>
+              <h6 class="card-subtitle mb-2 text-body-secondary">Select your favorite platform to play</h6>
+              <p class="card-text">
+                <select class="form-select form-select-sm" name="fav_platform">
+                  <option selected>{{ user.fav_platform.name }}</option>
+                  {% for platform in looker_platforms %}
+                    <option>{{ platform.name }}</option>
+                  {% endfor %}
+                </select>
+                <h6 class="card-subtitle mb-2 text-body-secondary">Select your platforms to play</h6>
+                <select class="form-select form-select-sm" size="8" multiple aria-label="multiple select example" name="platforms">
+                  {% for platform in platforms %}
+                    {% if platform in looker_platforms %}
+                      <option selected>{{ platform.name }}</option>
+                    {% else %}
+                      <option>{{ platform.name }}</option>
+                    {% endif %}
+                  {% endfor %}
+                </select>
+              </p>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="card">
+            <div class="card-body">
+              <h5 class="card-title">Game Types</h5>
+              <h6 class="card-subtitle mb-2 text-body-secondary">Select your favorite way to play</h6>
+              <p class="card-text">
+                <select class="form-select form-select-sm" name="fav_game_type">
+                  <option selected>{{ user.fav_game_type.name }}</option>
+                  {% for game_type in looker_game_types %}
+                    <option>{{ game_type.name }}</option>
+                  {% endfor %}
+                </select>
+                <h6 class="card-subtitle mb-2 text-body-secondary">Select your ways to play</h6>
+                <select class="form-select form-select-sm" size="8" multiple aria-label="multiple select example" name="game_types">
+                  {% for game_type in game_types %}
+                    {% if game_type in looker_game_types %}
+                      <option selected>{{ game_type.name }}</option>
+                    {% else %}
+                      <option>{{ game_type.name }}</option>
+                    {% endif %}
+                  {% endfor %}
+                </select>
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </form>
+{% endblock %}

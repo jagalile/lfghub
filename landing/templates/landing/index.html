@@ -1,0 +1,69 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>LFGHub</title>
+    <link rel="icon" href="./favicon.ico" type="image/x-icon" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@1.0.0/css/bulma.min.css" />
+    <script src="https://kit.fontawesome.com/426c9ab712.js" crossorigin="anonymous"></script>
+  </head>
+  <body>
+    <section class="hero is-primary">
+      <div class="hero-body">
+        <p class="title">Welcome to LFGHub</p>
+        <p class="subtitle">Home of the Lookers!</p>
+      </div>
+    </section>
+    <main>
+      <div class="container">
+        <div class="block mt-5">
+          <div class="box">
+            <p class="title is-4">What is LFGHub?</p>
+            <p>
+              Greetings, Adventurers! At LFGHub, also known as <strong>Looking For Group Hub</strong>, we are dedicated to helping all role-playing game (RPG) enthusiasts find their ideal games. Whether you're looking for a new epic campaign, a quick one-shot, or simply new gaming companions, LFGHub is the perfect place for you.
+            </p>
+          </div>
+          <div class="box">
+            <p class="title is-4">Who are the Lookers?</p>
+            <p>
+              <strong>Lookers</strong> is our affectionate name for all the players and game masters who are part of this vibrant community. As Lookers, you are here to explore, discover, and join the best role-playing adventures, sharing unforgettable moments with other RPG enthusiasts.
+            </p>
+          </div>
+          <div class="box">
+            <p class="title is-4">How Does LFGHub Work?</p>
+            <p>Create Your Looker Profile:
+
+              Sign Up and create your personal profile. Tell us about your favorite games, your experience, and what kind of games you are looking for. Browse Profiles of other Lookers and find companions with similar interests. Find Games:
+
+              Search Games: Use our advanced filters to find games based on the game type, schedule, duration, and play style you prefer. Post Listings: If you are a game master or a group looking for players, post your game and let the Lookers find you. Connect and Play:
+
+              Messaging and Forums: Communicate with other Lookers through our messaging platform and participate in themed forums. Special Events: Join events and meetups organized by the community to discover new gaming opportunities.</p>
+          </div>
+          <div class="box">
+            <p class="title is-4">Why Join LFGHub?</p>
+            <p>Active Community: Join an active and growing community of players and game masters from around the world. Personalized Filters: Find exactly what you're looking for with our detailed filters. Safety and Trust: Verified profiles and tools to maintain a safe and respectful environment. Resources and Support: Access guides, tutorials, and online support to enhance your gaming experience.</p>
+          </div>
+          <div class="box">
+            <p class="title is-4">Start Your Adventure!</p>
+            <p>Sign up today and join the Lookers at LFGHub. Your next great role-playing adventure is just a few clicks away!</p>
+          </div>
+        </div>
+        <div class="buttons is-centered">
+          <a class="button is-primary" href="{% url 'users:lookers_list' %}">Join now!</a>
+        </div>
+      </div>
+    </main>
+    <footer class="footer mt-5">
+      <div class="content has-text-centered">
+        <p>
+          <strong>LFGHub</strong> by <a href="https://www.linkedin.com/in/jgalilea/" target="_blank">Javier Galilea</a>. The source code is licensed
+          <a href="http://opensource.org/licenses/mit-license.php">MIT</a>. The website content is licensed
+          <a href="http://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY NC SA 4.0</a>.
+        </p>
+      </div>
+    </footer>
+  </body>
+</html>

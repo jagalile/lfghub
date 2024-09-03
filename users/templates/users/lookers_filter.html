@@ -1,0 +1,49 @@
+<h4 class="text-center">
+  Look For a Group 
+  <i class="bi bi-filter" data-bs-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample"></i>
+</h4>
+<div class="collapse" id="collapseExample">
+  <div class="card card-body">
+    <form class="row" action="/users/" method="post">
+      {% csrf_token %}
+      <div class="col">
+        <select class="form-select" name="open_to">
+          <option selected>Open to...</option>
+          {% for game in games %}
+            <option>{{ game }}</option>
+          {% endfor %}
+        </select>
+      </div>
+      <div class="col">
+        <select class="form-select" name="game">
+          <option selected>Games...</option>
+          {% for game in games %}
+            <option>{{ game }}</option>
+          {% endfor %}
+        </select>
+      </div>
+      <div class="col">
+        <select class="form-select" name="platform">
+          <option selected>Platforms...</option>
+          {% for platform in platforms %}
+            <option>{{ platform }}</option>
+          {% endfor %}
+        </select>
+      </div>
+      <div class="col">
+        <select class="form-select" name="game_type">
+          <option selected>Game Types...</option>
+          {% for game_type in game_types %}
+            <option>{{ game_type }}</option>
+          {% endfor %}
+        </select>
+      </div>
+      <div class="col">
+        <button type="submit" class="btn btn-primary">
+          <span class="icon"><i class="fa-solid fa-magnifying-glass"></i></span>
+          <span>Search</span>
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

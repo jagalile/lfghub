@@ -1,0 +1,39 @@
+{% extends 'users/base.html' %}
+{% block content %}
+  <div class="row">
+    <div class="col">
+      We are {{ total_lookers }} Lookers, {{ gm_lookers }} are Game Master and {{ player_lookers }} are Players.<canvas id="lookersRole"></canvas>
+    </div>
+    <div class="col">test</div>
+  </div>
+  <div class="row">
+    Juegos GM, Players
+    {{games_frequency}}
+    <canvas id="gamesFrequency"></canvas>
+  </div>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script>
+    const ctx1 = document.getElementById('lookersRole')
+    new Chart(ctx1, {
+      type: 'doughnut',
+      data: {
+        labels: ['GM\'s', 'Players', 'GM\'s and Players'],
+        datasets: [
+          {
+            label: 'Total Lookers',
+            data: [{{gm_lookers}}, {{player_lookers}}, {{gm_and_player_lookers}}],
+            backgroundColor: ['rgb(255, 99, 132)', 'rgb(54, 162, 235)', 'rgb(255, 205, 86)'],
+            hoverOffset: 4
+          }
+        ]
+      }
+    })
+    
+    /*console.log(JSON.parse());
+    const ctx2 = document.getElementById('gamesFrequency')
+    new Chart(ctx2, {
+      type: 'bar',
+      data: JSON.parse({{games_frequency }})
+    })*/
+  </script>
+{% endblock %}

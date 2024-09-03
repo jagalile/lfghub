@@ -1,0 +1,131 @@
+{% load flag_tools %}
+<div class="row">
+  <div class="col me-2">
+    <div class="row mb-3">
+      <div class="card">
+        <div class="card-body">
+          <div class="row">
+            <div class="col">
+              <h5 class="card-title">{{ looker.username }}</h5>
+              <h6 class="card-subtitle mb-2 text-body-secondary">{{ looker.get_pronouns_display }}</h6>
+            </div>
+            <div class="col text-end">
+              {% if looker.is_gm %}
+                <span class="badge rounded-pill text-bg-primary">Game Master</span>
+              {% endif %}
+              {% if looker.is_player %}
+                <span class="badge rounded-pill text-bg-primary">Player</span>
+              {% endif %}
+            </div>
+          </div>
+          <div class="row mt-2 mb-2">
+            <div class="col">
+              <h6 class="card-subtitle mb-2 text-body-secondary">Time Zone</h6>
+              {% if looker.get_country_code != None %}
+                <img style="border-radius: 5px; border: 1px solid;" src="https://flagcdn.com/h20/{{ looker.get_country_code|normalize_code }}.webp" title="{{ looker.get_country_name }}" height="20" width="30" />
+              {% endif %}
+            </div>
+            <div class="col">
+              <h6 class="card-subtitle mb-2 text-body-secondary">Languages</h6>
+              {% for language_code in looker.get_languages %}
+                {% if not language_code|get_language_name|find_country_name %}
+                  <i class="bi bi-translate" title="{{ language_code|get_language_name }}"></i>
+                {% else %}
+                  <img style="border-radius: 5px; border: 1px solid;" src="https://flagcdn.com/h20/{{ language_code|get_language_name|find_country_name }}.webp" title="{{ language_code|get_language_name }}" height="20" width="30" />
+                {% endif %}
+              {% endfor %}
+            </div>
+          </div>
+          <p class="card-text mt-4">{{ looker.bio }}</p>
+          <time datetime="{{ looker.date_joined }}">Joined on {{ looker.date_joined }}</time>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="card">
+        <div class="card-body">
+          <h5 class="card-title">Social Networks</h5>
+          <h6 class="card-subtitle mb-2 text-body-secondary">Contact the Looker using their social networks</h6>
+          <p class="card-text text-center">
+            {% for social in looker.socials.all %}
+              <a class="btn btn-outline-secondary btn-sm" href="{{ social.social_media.url|add:social.username }}" target="_blank">
+                <span class="icon"><i class="bi bi-{{ social.social_media.name|lower }}"></i></span>
+                <span>{{ social.social_media.name }}</span>
+              </a>
+            {% endfor %}
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="col ms-2">
+    <div class="row mb-3">
+      <div class="card">
+        <div class="card-body">
+          <h5 class="card-title">Games as Master</h5>
+          <h6 class="card-subtitle mb-2 text-body-secondary">Card subtitle</h6>
+          <p class="card-text">
+            {% for game in looker.gm_games.all|dictsort:'name' %}
+              {% if game.name == looker.fav_gm_game.name %}
+                <span class="badge text-bg-warning">{{ game.name }} <i class="bi bi-star"></i></span>
+              {% else %}
+                <span class="badge text-bg-light">{{ game.name }}</span>
+              {% endif %}
+            {% endfor %}
+          </p>
+        </div>
+      </div>
+    </div>
+    <div class="row mb-3">
+      <div class="card">
+        <div class="card-body">
+          <h5 class="card-title">Games as Player</h5>
+          <h6 class="card-subtitle mb-2 text-body-secondary">Card subtitle</h6>
+          <p class="card-text">
+            {% for game in looker.player_games.all|dictsort:'name' %}
+              {% if game.name == looker.fav_player_game.name %}
+                <span class="badge text-bg-warning">{{ game.name }} <i class="bi bi-star"></i></span>
+              {% else %}
+                <span class="badge text-bg-light">{{ game.name }}</span>
+              {% endif %}
+            {% endfor %}
+          </p>
+        </div>
+      </div>
+    </div>
+    <div class="row mb-3">
+      <div class="card">
+        <div class="card-body">
+          <h5 class="card-title">Platforms</h5>
+          <h6 class="card-subtitle mb-2 text-body-secondary">Card subtitle</h6>
+          <p class="card-text">
+            {% for platform in looker.platforms.all|dictsort:'name' %}
+              {% if platform.name == looker.fav_platform.name %}
+                <span class="badge text-bg-warning">{{ platform.name }} <i class="bi bi-star"></i></span>
+              {% else %}
+                <span class="badge text-bg-light">{{ platform.name }}</span>
+              {% endif %}
+            {% endfor %}
+          </p>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="card">
+        <div class="card-body">
+          <h5 class="card-title">Game Types</h5>
+          <h6 class="card-subtitle mb-2 text-body-secondary">Card subtitle</h6>
+          <p class="card-text">
+            {% for game_type in looker.game_types.all|dictsort:'name' %}
+              {% if game_type.name == looker.fav_game_type.name %}
+                <span class="badge text-bg-warning">{{ game_type.name }} <i class="bi bi-star"></i></span>
+              {% else %}
+                <span class="badge text-bg-light">{{ game_type.name }}</span>
+              {% endif %}
+            {% endfor %}
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

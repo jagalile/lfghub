@@ -1,0 +1,19 @@
+{% extends 'users/base.html' %}
+{% block content %}
+  <section>
+    {% include 'users/lookers_filter.html' %}
+  </section>
+  {% if lookers %}
+    <section class="mt-5">
+      {% include 'users/lookers_table.html' %}
+    </section>
+    <section class="mt-5">
+      {% include 'users/pagination.html' %}
+    </section>
+  {% else %}
+    <div class="alert alert-primary mt-5" role="alert">
+      <h4 class="alert-heading">Oops!</h4>
+      <p>There is no Looker matching the search query, share the web to have more Lookers.</p>
+    </div>
+  {% endif %}
+{% endblock %}
